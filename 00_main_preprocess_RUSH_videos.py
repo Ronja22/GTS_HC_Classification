@@ -11,14 +11,13 @@ def main():
     print()
 
     # Cut HYPE-Videos since we will just use the part of the video with upper body only where the experimenter is out of the room
-    
-    #cut_videos.cut_videos_from_folders(const.INPUT_VIDEO_FOLDERS,
-    #           const.OUTPUT_CUT_VIDEO_FOLDER,
-    #           const.SPECIFIC_FILES,
-    #           const.OVERRIDE)
+    cut_videos.cut_videos_from_folders(const.INPUT_VIDEO_FOLDERS,
+               const.OUTPUT_CUT_VIDEO_FOLDER,
+               const.SPECIFIC_FILES,
+               const.OVERRIDE)
     
     # to make sure the right segments are cut, save one frame of each cutted video 
-    videos.save_frame_from_each_video(const.OUTPUT_CUT_VIDEO_FOLDER,
+    videos.save_frame_from_each_video(const.INPUT_VIDEO_FOLDERS,
                                       const.OUTPUT_FRAME_FOLDER,
                                       print_frame = False)
     #asdfasdfdsdf

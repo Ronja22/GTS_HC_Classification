@@ -132,7 +132,7 @@ def cut_videos_from_folders(video_folders, save_path, certain_subjects, override
                 print("Found video for processing:", filename)
                 
                 # If override is False and the file already exists in the save path, skip it
-                if not override and os.path.exists(os.path.join(save_path, os.path.basename(filename).split(".")[0] + ".mp4")):
+                if not override and os.path.exists(os.path.join(save_path, os.path.basename(filename).split(".")[0] + "_cut.mp4")):
                     print("File already exists, skipping:", filename)
                     continue
 

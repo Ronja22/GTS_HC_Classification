@@ -1,6 +1,7 @@
 import cv2
 import os
 import matplotlib.pyplot as plt
+import src.utils.directories as dir
 
 def save_frame_from_each_video(input_path, save_path, print_frame=True, print_frame_number=100):
     """
@@ -14,6 +15,7 @@ def save_frame_from_each_video(input_path, save_path, print_frame=True, print_fr
     """
     # Function to process a single video file
     def process_video(video_path):
+        print(video_path)
         cap = cv2.VideoCapture(video_path)
         frame_number = 0
         while True:
@@ -22,6 +24,8 @@ def save_frame_from_each_video(input_path, save_path, print_frame=True, print_fr
                 break
             if frame_number == print_frame_number:
                 output_path = os.path.join(save_path, f"{os.path.splitext(os.path.basename(video_path))[0]}_{frame_number}th_frame.jpg")
+                
+                dir.create_directory_if_not_exists(output_path)
                 cv2.imwrite(output_path, frame)
                 if print_frame:
                     plt.imshow(frame)
