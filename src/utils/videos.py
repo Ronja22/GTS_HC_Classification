@@ -3,7 +3,7 @@ import os
 import matplotlib.pyplot as plt
 import src.utils.directories as dir
 
-def save_frame_from_each_video(input_path, save_path, print_frame=True, print_frame_number=100):
+def save_frame_from_each_video(input_path, save_path, print_frame=True, print_frame_number=500):
     """
     Save and optionally print the frame at a specified frame number from video files.
 
@@ -25,7 +25,7 @@ def save_frame_from_each_video(input_path, save_path, print_frame=True, print_fr
             if frame_number == print_frame_number:
                 output_path = os.path.join(save_path, f"{os.path.splitext(os.path.basename(video_path))[0]}_{frame_number}th_frame.jpg")
                 
-                dir.create_directory_if_not_exists(output_path)
+                dir.create_directory_if_not_exists(save_path)
                 cv2.imwrite(output_path, frame)
                 if print_frame:
                     plt.imshow(frame)
