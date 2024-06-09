@@ -11,7 +11,8 @@ import src.face_mesh_utils.face_mesh as face_mesh
 def save_facemesh_coordinates(input_folder,
                               input_cropping_folder,
                               output_coordinate_path,
-                              specific_file=None):
+                              specific_file=None,
+                              override = False):
     """
     Save face mesh coordinates from videos based on specified parameters.
 
@@ -50,6 +51,13 @@ def save_facemesh_coordinates(input_folder,
                                   "Please check that the coordinate path is correct or run "
                                   "00_main_face_detection_and_cropping.py to create the cropping parameters.")
                     continue
+                
+                x_coord_path = os.path.join(output_coordinate_path, "Coordinates_X", video_file_without_extension + ".npy")
+                y_coord_path = os.path.join(output_coordinate_path, "Coordinates_Y", video_file_without_extension + ".npy")
+                if  (os.path.exists(x_coord_path) and os.path.exists(y_coord_path)) and override == False:
+                    print(f"skipping {x_coord_path}, file already exists.")
+                    continue
+
 
                 # Load cropping parameters
                 cropping = pd.read_csv(cropping_csv_path)

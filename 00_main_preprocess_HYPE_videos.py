@@ -4,6 +4,7 @@ from src.preprocessing import cut_videos
 from src.utils import videos
 import src.face_detection_and_cropping as face_detect
 import src.save_face_mesh_coordinates as save_mesh
+import src.face_mesh_utils.prepare_face_mesh as prep_mesh
 
 def main():
     """
@@ -51,7 +52,15 @@ def main():
         const.DOWNSAMPLED_VIDEO_FOLDER,
         const.CROPPING_FOLDER,
         const.COORDINATE_FOLDER,
-        const.SPECIFIC_SUBJECTS
+        const.SPECIFIC_SUBJECTS,
+        const.OVERRIDE
+    )
+
+    # save face mesh coordinates
+    prep_mesh.prepare_face_mesh_rush_hype(
+        const.COORDINATE_FOLDER,
+        const.SPECIFIC_SUBJECTS,
+        const.OVERRIDE
     )
 
 if __name__ == "__main__":
