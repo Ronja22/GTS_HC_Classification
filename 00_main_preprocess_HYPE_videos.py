@@ -5,6 +5,7 @@ from src.utils import videos
 import src.face_detection_and_cropping as face_detect
 import src.save_face_mesh_coordinates as save_mesh
 import src.face_mesh_utils.prepare_face_mesh as prep_mesh
+import src.preprocessing.transform_to_standardposition as standard_position
 
 def main():
     """
@@ -15,12 +16,14 @@ def main():
     print_variables_of_class(const)
     print()
 
+
+    
     # Cut HYPE videos to extract segments where only the upper body is visible and the experimenter is out of the room
     cut_videos.cut_videos_from_folders(
        const.INPUT_VIDEO_FOLDERS,
        const.CUT_VIDEO_FOLDER,
        const.SPECIFIC_SUBJECTS,
-        const.OVERRIDE
+       const.OVERRIDE
     )
 
     # Save one frame from each cut video to ensure the correct segments were cut
@@ -38,7 +41,7 @@ def main():
         const.SPECIFIC_SUBJECTS,
         const.OVERRIDE
     )
-
+    
     # Face detection and cropping
     face_detect.detect_face_and_crop(
         const.DOWNSAMPLED_VIDEO_FOLDER,
@@ -61,6 +64,13 @@ def main():
         const.COORDINATE_FOLDER,
         const.SPECIFIC_SUBJECTS,
         const.OVERRIDE
+    )
+
+    # transform mesh to standard position
+    standard_position.transform_to_standardposition(
+        const.COORDINATE_FOLDER,
+        const.SPECIFIC_SUBJECTS,
+        const.OVERRIDE                                                                                     
     )
 
 if __name__ == "__main__":

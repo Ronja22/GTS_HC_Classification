@@ -27,7 +27,7 @@ class PreprocessHYPE:
     CROPPING_FOLDER = "../Data/Cropping/HYPE"
 
     # Path in which the face mesh coordinates should be saved
-    COORDINATE_FOLDER = "../Data/Corrdinates/HYPE"
+    COORDINATE_FOLDER = "../Data/Coordinates/HYPE"
 
 
 class PreprocessRUSH:
@@ -59,4 +59,4 @@ class PreprocessRUSH:
     CROPPING_FOLDER = "../Data/Cropping/RUSH"
 
     # Path in which the face mesh coordinates should be saved
-    COORDINATE_FOLDER = "../Data/Corrdinates/RUSH"
+    COORDINATE_FOLDER = "../Data/Coordinates/RUSH"

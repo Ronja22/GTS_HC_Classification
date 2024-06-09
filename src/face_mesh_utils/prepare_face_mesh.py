@@ -161,8 +161,11 @@ def prepare_face_mesh_rush_hype(input_folder, certain_subjects=[], override=Fals
             if any(subject in filename for subject in certain_subjects):
                 print("Processing filename:", filename)
 
+                
+                output_file = os.path.join(savefolder, filename.split(".")[0] + ".csv")
+                
                 # If override is False, skip files that already exist in the save folder
-                if not override and os.path.exists(os.path.join(savefolder, filename)):
+                if not override and os.path.exists(output_file):
                     print("File " + filename + " exists, skipping")
                     continue
 
@@ -178,7 +181,6 @@ def prepare_face_mesh_rush_hype(input_folder, certain_subjects=[], override=Fals
                 mesh_df["frame"] = pd.to_numeric(mesh_df["frame"])  # Ensure frame column is numeric
 
                 # Save the prepared face mesh data to a CSV file in the save folder
-                output_file = os.path.join(savefolder, filename.split(".")[0] + ".csv")
                 mesh_df.to_csv(output_file, index=False)
                 print(f"Saved prepared data to {output_file}")
 
