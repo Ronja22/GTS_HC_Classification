@@ -23,6 +23,12 @@ class PreprocessHYPE:
     # Path in which the downsampled videos should be saved
     DOWNSAMPLED_VIDEO_FOLDER = "../Data/Videos_downsampled/HYPE"
 
+    # Path in which the cropping infromation should be saved
+    CROPPING_FOLDER = "../Data/Cropping/HYPE"
+
+    # Path in which the face mesh coordinates should be saved
+    COORDINATE_FOLDER = "../Data/Corrdinates/HYPE"
+
 
 class PreprocessRUSH:
     """
@@ -48,3 +54,9 @@ class PreprocessRUSH:
 
     # Path in which the downsampled videos should be saved
     DOWNSAMPLED_VIDEO_FOLDER = "../Data/Videos_downsampled/RUSH"
+
+    # Path in which the cropping infromation should be saved
+    CROPPING_FOLDER = "../Data/Cropping/RUSH"
+
+    # Path in which the face mesh coordinates should be saved
+    COORDINATE_FOLDER = "../Data/Corrdinates/RUSH"

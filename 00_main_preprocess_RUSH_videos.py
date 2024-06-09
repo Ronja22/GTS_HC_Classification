@@ -2,6 +2,8 @@ from constants import PreprocessRUSH as const
 from src.utils.prints import print_variables_of_class
 from src.preprocessing import cut_videos
 from src.utils import videos
+import src.face_detection_and_cropping as face_detect
+import src.save_face_mesh_coordinates as save_mesh
 
 def main():
     """
@@ -34,6 +36,21 @@ def main():
         const.TARGET_FPS,
         const.SPECIFIC_SUBJECTS,
         const.OVERRIDE
+    )
+
+    # Face detection and cropping
+    face_detect.detect_face_and_crop(
+        const.DOWNSAMPLED_VIDEO_FOLDER,
+        const.CROPPING_FOLDER,
+        const.SPECIFIC_SUBJECTS
+    )
+
+    # save face mesh coordinates
+    save_mesh.save_facemesh_coordinates(
+        const.DOWNSAMPLED_VIDEO_FOLDER,
+        const.CROPPING_FOLDER,
+        const.COORDINATE_FOLDER,
+        const.SPECIFIC_SUBJECTS
     )
 
 if __name__ == "__main__":
