@@ -7,6 +7,7 @@ import src.save_face_mesh_coordinates as save_mesh
 import src.face_mesh_utils.prepare_face_mesh as prep_mesh
 import src.preprocessing.transform_to_standardposition as standard_position
 import src.preprocessing.center_and_normalize as center_norm
+import src.preprocessing.medianfilter as filter
 
 def main():
     """
@@ -75,6 +76,13 @@ def main():
         const.COORDINATE_FOLDER,
         const.SPECIFIC_SUBJECTS,
         const.OVERRIDE
+    )
+
+    # apply median filter 
+    filter.medianfilter(
+        const.COORDINATE_FOLDER,
+        const.SPECIFIC_SUBJECTS,
+        override = const.OVERRIDE
     )
 
 if __name__ == "__main__":

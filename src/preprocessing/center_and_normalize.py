@@ -37,7 +37,7 @@ def center_and_normalize_data(folder, certain_subjects, override, center=True, d
 
         # Process files that match any of the certain_subjects strings
         if any(subject in filename for subject in certain_subjects):
-            print("Processing filename:", filename)
+            print("Center and normalize: Processing filename:", filename)
 
             # If override is False, skip files that already exist in the save folder
             if not override and os.path.exists(os.path.join(savefolder_X, filename)):
