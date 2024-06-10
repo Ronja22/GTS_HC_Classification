@@ -8,6 +8,7 @@ import src.face_mesh_utils.prepare_face_mesh as prep_mesh
 import src.preprocessing.transform_to_standardposition as standard_position
 import src.preprocessing.center_and_normalize as center_norm
 import src.preprocessing.medianfilter as filter
+import src.preprocessing.calculate_features as feat
 
 
 def main():
@@ -89,6 +90,14 @@ def main():
         const.COORDINATE_FOLDER,
         const.SPECIFIC_SUBJECTS,
         override = const.OVERRIDE
+    )
+
+    # calculate features
+    feat.calc_all_features(
+        const.COORDINATE_FOLDER,
+        const.SPECIFIC_SUBJECTS,
+        const.OVERRIDE,
+        const.TARGET_FPS
     )
 
 if __name__ == "__main__":
