@@ -29,6 +29,9 @@ class PreprocessHYPE:
     # Path in which the face mesh coordinates should be saved
     COORDINATE_FOLDER = "../Data/Coordinates/HYPE"
 
+    # Path in which the features should be saved
+    FEATURE_FOLDER = "../Data/Features/HYPE"
+
 
 class PreprocessRUSH:
     """
@@ -60,3 +63,6 @@ class PreprocessRUSH:
 
     # Path in which the face mesh coordinates should be saved
     COORDINATE_FOLDER = "../Data/Coordinates/RUSH"
+
+        # Path in which the features should be saved
+    FEATURE_FOLDER = "../Data/Features/RUSH"

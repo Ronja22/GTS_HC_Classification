@@ -95,6 +95,7 @@ def main():
     # calculate features
     feat.calc_all_features(
         const.COORDINATE_FOLDER,
+        const.FEATURE_FOLDER,
         const.SPECIFIC_SUBJECTS,
         const.OVERRIDE,
         const.TARGET_FPS

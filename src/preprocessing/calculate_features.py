@@ -241,12 +241,19 @@ def calc_features(coordinates, fps):
     return negsum, possum, maxnegmov, maxposmov, maxnegmovpertime, maxposmovpertime, meanderneg, meanderpos, maxderneg, maxderpos, max_dist, var
 
 
-def calc_all_features(folder, certain_subjects, override, fps, folder_extension = "filtered"):
+def calc_all_features(folder, save_folder, certain_subjects, override, fps, folder_extension = "filtered"):
     window_size = 3
 
     # Check if the directory for saving negative movement summaries exists
-    checkpath = os.path.join(folder, folder_extension + "_Sum_neg_movements_X")
+    checkpath = os.path.join(save_folder,  "Sum_neg_movements_X")
     
+    # Create directories if they don't exist
+    for feat in ["Sum_neg_movements", "Sum_pos_movements", "Max_neg_movements", "Max_pos_movements",
+                    "Max_neg_mov_per_time", "Max_pos_mov_per_time", "Mean_derivative_neg", "Mean_derivative_pos",
+                    "Max_derivative_neg", "Max_derivative_pos", "Max_distance", "Variance"]:
+        for ax in ["_X", "_Y", "_Z"]:
+            dir.create_directory_if_not_exists(os.path.join(save_folder, feat + ax))
+
     # Loop through each file in the X coordinate folder
     for data_name in os.listdir(os.path.join(folder, "Coordinates_X_" + folder_extension)):
         if certain_subjects == [] or certain_subjects == None:
@@ -311,36 +318,52 @@ def calc_all_features(folder, certain_subjects, override, fps, folder_extension 
                 Y = Y.iloc[:frame_length]
                 Z = Z.iloc[:frame_length]
 
-            # Create directories if they don't exist
-            for feat in ["Sum_neg_movements", "Sum_pos_movements", "Max_neg_movements", "Max_pos_movements",
-                         "Max_neg_mov_per_time", "Max_pos_mov_per_time", "Mean_derivative_neg", "Mean_derivative_pos",
-                         "Max_derivative_neg", "Max_derivative_pos", "Max_dist", "Var"]:
-                for ax in ["_X", "_Y", "_Z"]:
-                    dir.create_directory_if_not_exists(os.path.join(folder, feat + ax))
+
             
-        # Define a dictionary to store data for each axis
-        axis_data = {"X": X, "Y": Y, "Z": Z}
+            # Define a dictionary to store data for each axis
+            axis_data = {"X": X, "Y": Y, "Z": Z}
 
-        # Process each axis (X, Y, Z)
-        for ax, data in axis_data.items():
-            # Calculate features for the current axis
-            negsum, possum, maxnegmov, maxposmov, maxnegmovpertime, maxposmovpertime, meanderneg, meanderpos, \
-            maxderneg, maxderpos, max_dist, var = calc_features(data, fps)
+            # Process each axis (X, Y, Z)
+            for ax, data in axis_data.items():
+                # Calculate features for the current axis
+                negsum, possum, maxnegmov, maxposmov, maxnegmovpertime, maxposmovpertime, meanderneg, meanderpos, \
+                maxderneg, maxderpos, max_dist, var = calc_features(data, fps)
 
-            # Define the folder path for saving features
-            feature_folder = os.path.join(folder, ax)
+                # Define the folder path for saving features
+        
+                # Save calculated features to CSV files
+                save_path = os.path.join(save_folder,f"Sum_neg_movements_" + ax,data_name)
+                negsum.to_csv(save_path)
 
-            dir.create_directory_if_not_exists(feature_folder)
-            # Save calculated features to CSV files
-            negsum.to_csv(os.path.join(feature_folder, "Sum_neg_movements.csv"))
-            possum.to_csv(os.path.join(feature_folder, "Sum_pos_movements.csv"))
-            maxnegmov.to_csv(os.path.join(feature_folder, "Max_neg_movements.csv"))
-            maxposmov.to_csv(os.path.join(feature_folder, "Max_pos_movements.csv"))
-            maxnegmovpertime.to_csv(os.path.join(feature_folder, "Max_neg_mov_per_time.csv"))
-            maxposmovpertime.to_csv(os.path.join(feature_folder, "Max_pos_mov_per_time.csv"))
-            meanderneg.to_csv(os.path.join(feature_folder, "Mean_derivative_neg.csv"))
-            meanderpos.to_csv(os.path.join(feature_folder, "Mean_derivative_pos.csv"))
-            maxderneg.to_csv(os.path.join(feature_folder, "Max_derivative_neg.csv"))
-            maxderpos.to_csv(os.path.join(feature_folder, "Max_derivative_pos.csv"))
-            var.to_csv(os.path.join(feature_folder, "Variance.csv"))
-            max_dist.to_csv(os.path.join(feature_folder, "Max_distance.csv"))
+                save_path = os.path.join(save_folder,f"Sum_pos_movements_" + ax,data_name)
+                possum.to_csv(save_path)
+
+                save_path = os.path.join(save_folder,f"Max_neg_movements_" + ax,data_name)
+                maxnegmov.to_csv(save_path)
+
+                save_path = os.path.join(save_folder,f"Max_pos_movements_" + ax,data_name)
+                maxposmov.to_csv(save_path)
+
+                save_path = os.path.join(save_folder,f"Max_neg_mov_per_time_" + ax,data_name)
+                maxnegmovpertime.to_csv(save_path)
+
+                save_path = os.path.join(save_folder,f"Max_pos_mov_per_time_" + ax,data_name)
+                maxposmovpertime.to_csv(save_path)
+
+                save_path = os.path.join(save_folder,f"Mean_derivative_neg_" + ax,data_name)
+                meanderneg.to_csv(save_path)
+
+                save_path = os.path.join(save_folder,f"Mean_derivative_pos_" + ax,data_name)
+                meanderpos.to_csv(save_path)
+
+                save_path = os.path.join(save_folder,f"Max_derivative_neg_" + ax,data_name)
+                maxderneg.to_csv(save_path)
+
+                save_path = os.path.join(save_folder,f"Max_derivative_pos_" + ax,data_name)
+                maxderpos.to_csv(save_path)
+
+                save_path = os.path.join(save_folder,f"Variance_" + ax,data_name)
+                var.to_csv(save_path)
+
+                save_path = os.path.join(save_folder,f"Max_distance_" + ax,data_name)
+                max_dist.to_csv(save_path)
