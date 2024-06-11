@@ -19,6 +19,8 @@ def main():
     print_variables_of_class(const)
     print()
 
+
+    """
     # Cut RUSH videos to extract segments where only the upper body is visible and the experimenter is out of the room
     cut_videos.cut_videos_from_folders(
        const.INPUT_VIDEO_FOLDERS,
@@ -85,7 +87,7 @@ def main():
         const.SPECIFIC_SUBJECTS,
         override = const.OVERRIDE
     )
-
+    """
     # calculate features
     feat.calc_all_features(
         const.COORDINATE_FOLDER,
@@ -93,6 +95,11 @@ def main():
         const.SPECIFIC_SUBJECTS,
         const.OVERRIDE,
         const.TARGET_FPS
+    )
+
+    feat.create_dfs_for_all_features(
+        const.FEATURE_FOLDER,
+        override = const.OVERRIDE
     )
 
 if __name__ == "__main__":

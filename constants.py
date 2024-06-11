@@ -12,7 +12,7 @@ class PreprocessHYPE:
     SPECIFIC_SUBJECTS = None
 
     # If False, it will not override data that already exists
-    OVERRIDE = False
+    OVERRIDE = True
 
     # Folder in which one frame of each video should be saved for sanity checks
     FRAME_FOLDER = "../Data/Video_frames/HYPE_UZL"
@@ -47,7 +47,7 @@ class PreprocessRUSH:
     SPECIFIC_SUBJECTS = None
 
     # If False, it will not override data that already exists
-    OVERRIDE = False
+    OVERRIDE = True
 
     # Folder in which one frame of each video should be saved for sanity checks
     FRAME_FOLDER = "../Data/Video_frames/RUSH"

@@ -367,3 +367,126 @@ def calc_all_features(folder, save_folder, certain_subjects, override, fps, fold
 
                 save_path = os.path.join(save_folder,f"Max_distance_" + ax,data_name)
                 max_dist.to_csv(save_path)
+
+
+
+def create_dfs_for_all_features(folder_name, folder_extension ="filtered", calc_mean=True, override=False):
+    """
+    Processes multiple features and axes by merging data from CSV files in specified folders, optionally calculating means.
+
+    Parameters:
+    folder_name (str): The path to the base folder containing feature subfolders.
+    folder_extension (str): The extension to append to the saved file names.
+    calc_mean (bool): Whether to calculate the mean of numerical columns for each unique ID.
+    override (bool): Whether to override existing files.
+
+    Returns:
+    None
+    """
+    # Define the list of functions and axes to process
+    functions = np.flip([
+        "Max_derivative_neg", "Max_derivative_pos", "Max_distance", "Max_neg_movements", 
+        "Max_pos_movements", "Mean_derivative_neg", "Max_pos_mov_per_time", 
+        "Max_neg_mov_per_time", "Mean_derivative_pos", "Sum_neg_movements", 
+        "Sum_pos_movements", "Variance"
+    ])
+    axes = ["X", "Y", "Z"]
+
+    # Iterate over each combination of function and axis
+    for func in functions:
+        for ax in axes:
+            # Create the save path for the combined data
+            savepath = os.path.join(folder_name, "All_Features")
+            dir.create_directory_if_not_exists(savepath)
+
+            # Determine the file name to check for existence
+            if calc_mean:
+                output_filename = f"{folder_extension}_{func}_{ax}_all.csv"
+            else:
+                output_filename = f"{func}_{ax}_all_without_mean.csv"
+
+            output_filepath = os.path.join(savepath, output_filename)
+            
+            # Check if the file already exists and skip processing if override is False
+            if not override and os.path.exists(output_filepath):
+                print(f"File {output_filename} exists, skipping")
+                continue
+            
+            # Construct the feature folder path
+            featfolder = os.path.join(folder_name, f"{func}_{ax}")
+
+            # Process the feature folder and save the combined data
+            create_all_data_from_folder(featfolder, savepath, calc_mean)
+
+    print("Processing complete.")
+
+
+def create_dfs_from_folder(folder_name, save_folder, calc_mean=True):
+    """
+    Merges CSV files from a specified folder into a single DataFrame, optionally calculating the mean of numerical columns.
+    
+    Parameters:
+    folder_name (str): The path to the folder containing the CSV files.
+    save_folder (str): The path to the folder where the final CSV will be saved.
+    calc_mean (bool): Whether to calculate the mean of numerical columns for each unique ID.
+    
+    Returns:
+    None
+    """
+    data = []
+
+    print("Feature folder:", folder_name)
+    
+    # Iterate over each file in the specified folder
+    for data_name in os.listdir(folder_name):
+        # Read the CSV file into a DataFrame
+        coordinates = pd.read_csv(os.path.join(folder_name, data_name))
+        
+        # Create a unique ID for each row based on the filename and row index
+        coordinates["ID"] = data_name + "_"
+        coordinates["ID_idx"] = [str(i).zfill(3) for i in range(len(coordinates))]
+        coordinates["ID"] = coordinates["ID"] + coordinates["ID_idx"].astype(str)
+        
+        # Drop the temporary ID index column
+        coordinates = coordinates.drop(columns="ID_idx")
+        
+        # Append the DataFrame to the list
+        data.append(coordinates)
+    
+    # Concatenate all DataFrames in the list into a single DataFrame
+    d = pd.concat(data, ignore_index=True)
+    
+    # Remove any columns that contain 'Unnamed'
+    d = d.loc[:, ~d.columns.str.contains('Unnamed', case=False)]
+    
+    # Calculate mean if specified
+    if calc_mean:
+        # Create a temporary column to group by the unique ID
+        d["ID1"] = d["ID"].copy().str.split('.csv').str[0]
+
+        # Create a dictionary to store new columns
+        new_columns = {}
+
+        # Calculate the mean for each numerical column and store it in the dictionary
+        for col in d.columns:
+            if col not in ["ID", "ID1"]:
+                new_columns[col + "_mean"] = d.groupby("ID1")[col].transform(lambda x: x.abs().mean())
+        
+        # Convert the dictionary to a DataFrame and concatenate with the original DataFrame
+        d = pd.concat([d, pd.DataFrame(new_columns)], axis=1)
+        
+        # Drop the temporary ID1 column
+        d = d.drop(columns="ID1")
+        
+        # Save the final DataFrame to CSV with mean values
+        output_filename = os.path.join(save_folder, os.path.basename(folder_name) + "_all.csv")
+    else:
+        # Save the final DataFrame to CSV without mean values
+        output_filename = os.path.join(save_folder, os.path.basename(folder_name) + "_all_without_mean.csv")
+    
+    d.to_csv(output_filename, index=False)
+    
+    print("Length of final saved data:", len(d))
+    print("Length of list of data:", len(data))
+
+
