@@ -66,3 +66,35 @@ class PreprocessRUSH:
 
         # Path in which the features should be saved
     FEATURE_FOLDER = "../Data/Features/RUSH"
+
+
+class PreprocessURGE:
+    """
+    Class to preprocess URGE videos.
+    """
+    # List of input video folders
+    INPUT_VIDEO_FOLDERS = "../Data/Videos/URGE"
+
+    # Folder in which the Ratings are stored
+    RATINGS_FOLDER = "../Data/Ratings/URGE"
+
+    # List of specific files to process, or None to process all
+    SPECIFIC_SUBJECTS = None
+
+    # If False, it will not override data that already exists
+    OVERRIDE = False
+
+    # Target frames per second for the downsampled videos
+    TARGET_FPS = 25
+
+    # Path in which the downsampled videos should be saved
+    DOWNSAMPLED_VIDEO_FOLDER = "../Data/Videos_downsampled/URGE"
+
+    # Path in which the cropping infromation should be saved
+    CROPPING_FOLDER = "../Data/Cropping/URGE"
+
+    # Path in which the face mesh coordinates should be saved
+    COORDINATE_FOLDER = "../Data/Coordinates/URGE"
+
+        # Path in which the features should be saved
+    FEATURE_FOLDER = "../Data/Features/URGE"
